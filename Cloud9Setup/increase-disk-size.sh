@@ -4,15 +4,11 @@
 SIZE=50
 
 # Get the ID of the environment host Amazon EC2 instance.
-INSTANCEID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+INSTANCEID="i-094318dc72c1488e5"
+REGION="us-east-1"
 
-# Get the ID of the Amazon EBS volume associated with the instance.
-VOLUMEID=$(aws ec2 describe-instances \
-  --instance-id $INSTANCEID \
-  --query "Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId" \
-  --output text \
-  --region $REGION)
+
+VOLUMEID="vol-0112038587dccde6c"
 
 # Resize the EBS volume.
 aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE
@@ -33,16 +29,7 @@ then
   # Rewrite the partition table so that the partition takes up all the space that it can.
   sudo growpart /dev/xvda 1
 
-  # Expand the size of the file system.
-  # Check if we're on AL2
-  STR=$(cat /etc/os-release)
-  SUB="VERSION_ID=\"2\""
-  if [[ "$STR" == *"$SUB"* ]]
-  then
-    sudo xfs_growfs -d /
-  else
-    sudo resize2fs /dev/xvda1
-  fi
+  sudo xfs_growfs -d /
 
 else
   # Rewrite the partition table so that the partition takes up all the space that it can.

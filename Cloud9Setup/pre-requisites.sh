@@ -6,11 +6,14 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | sudo 
 . /home/ec2-user/.nvm/nvm.sh
 
 #Install python3.8
-sudo yum install -y amazon-linux-extras
+sudo dnf install -y amazon-linux-extras
 sudo amazon-linux-extras enable python3.8
-sudo yum install -y python3.8
-sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
-sudo alternatives --set python3 /usr/bin/python3.8
+sudo dnf install -y python3.8
+sudo ln -sf /usr/bin/python3.8 /usr/bin/python3  # <-- Añadir
+sudo alternatives --set python3 /usr/bin/python3.8  # <-- Añadir
+
+# sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+# sudo alternatives --set python3 /usr/bin/python3.8
 
 # Uninstall aws cli v1 and Install aws cli version-2.3.0
 sudo pip uninstall awscli -y
@@ -59,7 +62,7 @@ npm uninstall -g aws-cdk
 npm install -g aws-cdk@"^2.40.0"
 
 #Install jq version 1.5
-sudo yum -y install jq-1.5
+sudo yum -y install jq
 
 #Install pylint version 2.11.1
 python3 -m pip install pylint==2.11.1
