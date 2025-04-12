@@ -45,7 +45,8 @@ if [[ $server -eq 1 ]]; then
   echo "Server code is getting deployed"
 
   cd ../server || exit # stop execution if cd fails
-  REGION=$(aws configure get region)
+  # REGION=$(aws configure get region)
+  REGION=$(aws configure get region || echo "us-east-1")
   DEFAULT_SAM_S3_BUCKET=$(grep s3_bucket samconfig.toml | cut -d'=' -f2 | cut -d \" -f2)
   echo "aws s3 ls s3://$DEFAULT_SAM_S3_BUCKET"
   if ! aws s3 ls "s3://${DEFAULT_SAM_S3_BUCKET}"; then
