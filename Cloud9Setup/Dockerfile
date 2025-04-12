@@ -19,6 +19,22 @@ RUN dnf install -y python3.9 python3-pip && \
     alternatives --set python3 /usr/bin/python3.9 && \
     python3 -m ensurepip --upgrade
 
+# Agrega estas líneas ANTES de instalar SAM CLI
+RUN pip3 install --upgrade pip setuptools wheel
+
+# Instala dependencias de la capa en directorio temporal
+RUN mkdir -p /tmp/layer-python && \
+    pip3 install \
+      --target /tmp/layer-python \
+      "aws-lambda-powertools[Tracer,Logger,Metrics]" \
+      simplejson \
+      jsonpickle \
+      aws_requests_auth
+
+# Copia las dependencias al directorio de la capa
+RUN mkdir -p /app/layers/python && \
+    cp -r /tmp/layer-python/* /app/layers/python/
+
 # 4. Instalar AWS CLI v2
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
