@@ -274,5 +274,5 @@ Resources:
     Type: AWS::Serverless::Function
     DependsOn: TenantUserPoolLambdaExecutionRole
     Properties:
-      CodeUri: ../../TenantManagementService/
+      CodeUri: ../TenantManagementService/
 
