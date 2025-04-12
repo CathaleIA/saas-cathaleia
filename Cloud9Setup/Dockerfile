@@ -1,5 +1,9 @@
 FROM amazonlinux:2023
 
+
+
+# 0. Instalar Docker explícitamente
+RUN dnf install -y docker
 # 1. Actualizar e instalar herramientas básicas
 RUN dnf update -y && \
     dnf install -y --allowerasing git unzip curl wget tar gzip jq && \
