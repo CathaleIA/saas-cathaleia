@@ -31,7 +31,7 @@ RUN mkdir -p /app/layers/python && \
     cp -r /root/.local/lib/python3.9/site-packages/* /app/layers/python/
 
 # 6. Instalar SAM CLI en espacio de usuario
-RUN python3 -m pip install --user aws-sam-cli==1.94.0
+RUN python3 -m pip install --user aws-sam-cli==1.118.0
 
 # 7. Instalar CDK y herramientas adicionales
 RUN npm install -g aws-cdk@2.40.0 && \
